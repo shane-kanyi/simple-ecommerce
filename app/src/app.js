@@ -14,8 +14,13 @@ app.get('/', (req, res) => {
     res.render('index', { products });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// This block will only run when the file is executed directly (e.g., `node src/app.js` or `npm start`)
+// It will NOT run when the file is imported by another file (like our test script)
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
 
+// We still export the app for our test file to use
 module.exports = app;
