@@ -1,0 +1,19 @@
+{
+  "name": "simple-ecommerce-app",
+  "version": "1.0.0",
+  "description": "A simple e-commerce app.",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "mocha test"
+  },
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
+  }
+}

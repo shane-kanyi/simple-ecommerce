@@ -1,0 +1,16 @@
+const request = require('supertest');
+const { expect } = require('chai');
+const app = require('../src/app');
+
+describe('GET /', () => {
+    it('should return a 200 OK status and HTML content', (done) => {
+        request(app)
+            .get('/')
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err);
+                expect(res.text).to.include('Welcome to Our Store');
+                done();
+            });
+    });
+});
