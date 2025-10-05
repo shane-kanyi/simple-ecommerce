@@ -2,16 +2,198 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Our Products</title>
-    <style> body { font-family: sans-serif; } .product { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; } </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <!-- Add Font Awesome for the cart icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+        }
+        .navbar {
+            background-color: #ffffff;
+            padding: 15px 40px;
+            border-bottom: 1px solid #dddfe2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .cart-container {
+            position: relative;
+        }
+        .cart-icon {
+            font-size: 24px;
+            color: #606770;
+        }
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background-color: #fa383e;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            font-weight: bold;
+            display: none; /* Hidden by default */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .product-card {
+            background-color: #ffffff;
+            border: 1px solid #dddfe2;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 10px;
+        }
+        .product-price {
+            font-size: 18px;
+            color: #007bff;
+            font-weight: 500;
+            margin-top: auto;
+        }
+        .product-actions {
+            padding: 0 20px 20px;
+        }
+        .add-to-cart-btn {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .add-to-cart-btn:hover {
+            background-color: #0056b3;
+        }
+        .add-to-cart-btn:disabled {
+            background-color: #28a745; /* Green color when added */
+            cursor: not-allowed;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: #606770;
+            border-top: 1px solid #dddfe2;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Our Store</h1>
-    <% products.forEach(function(product) { %>
-        <div class="product">
-            <h2><%= product.name %></h2>
-            <p>Price: $<%= product.price %></p>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            Tech Store
         </div>
-    <% }); %>
+        <div class="cart-container">
+            <i class="fas fa-shopping-cart cart-icon"></i>
+            <span class="cart-count" id="cart-count">0</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="product-grid">
+            <% products.forEach(function(product) { %>
+                <div class="product-card">
+                    <img src="<%= product.image %>" alt="<%= product.name %>" class="product-image">
+                    <div class="product-info">
+                        <h2 class="product-name"><%= product.name %></h2>
+                        <p class="product-price">$<%= product.price %></p>
+                    </div>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" data-product-id="<%= product.id %>">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2025 Simple E-Commerce. All rights reserved.
+    </div>
+
+    <script>
+        // Wait for the full HTML document to be loaded before running the script
+        document.addEventListener('DOMContentLoaded', () => {
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+            const cartCountElement = document.getElementById('cart-count');
+
+            // This will be our simple, in-memory cart
+            let cartItemCount = 0;
+
+            const updateCartCount = () => {
+                cartCountElement.textContent = cartItemCount;
+                if (cartItemCount > 0) {
+                    cartCountElement.style.display = 'block';
+                } else {
+                    cartCountElement.style.display = 'none';
+                }
+            };
+
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Increment the item count
+                    cartItemCount++;
+
+                    // Update the number on the cart icon
+                    updateCartCount();
+
+                    // Provide visual feedback on the button
+                    button.textContent = 'Added!';
+                    button.disabled = true;
+                });
+            });
+
+            // Initialize the cart count on page load
+            updateCartCount();
+        });
+    </script>
 </body>
 </html>
