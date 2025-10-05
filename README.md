@@ -2,26 +2,6 @@
 
 This repository contains a complete, automated CI/CD pipeline for a simple Node.js web application. The project demonstrates modern DevOps practices, including Infrastructure as Code (IaC), containerization, automated testing, security scanning, and live monitoring.
 
-## Architecture Diagram
-
-Below is the architecture diagram illustrating the infrastructure and deployment flow for this project:
-
-![Architecture Diagram](architecture-diagram.png)
-
----
-
-## Live Demo
-
-Check out the live application here: [Live Demo](https://your-live-demo-link.com)
-
----
-
-## Monitoring Dashboard
-
-Screenshots of the monitoring dashboards (Prometheus & Grafana) are shown below:
-
-![Grafana Dashboard Screenshot](monitoring/grafana-dashboard.png)
-![Prometheus Dashboard Screenshot](monitoring/prometheus-dashboard.png)
 
 ## Live Application Screenshot
 
