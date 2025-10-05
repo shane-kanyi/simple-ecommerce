@@ -9,7 +9,8 @@ describe('GET /', () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-                expect(res.text).to.include('Welcome to Our Store');
+                // UPDATED: We are now checking for the new text in our navbar
+                expect(res.text).to.include('Tech Store');
                 done();
             });
     });
