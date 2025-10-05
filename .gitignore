@@ -18,6 +18,8 @@ yarn-error.log*
 # Ignore .tfvars files as they often contain sensitive variables
 *.tfvars
 crash.log
+# Terraform plan files
+*.tfplan
 
 # Operating System / IDE specific files
 .DS_Store
